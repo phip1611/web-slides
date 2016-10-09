@@ -86,6 +86,12 @@ function showSlide(identifier) {
     else if (identifier == "start") {
         nextSlideToShowIdentifier = 1;
     }
+    else if (identifier >= 1 && identifier <= slideCount) {
+        nextSlideToShowIdentifier = identifier;
+    } else {
+        return;
+    }
+
 
     // vorheriges verstecken
     document.querySelector("#slide-"+currentlyShownSlideIdentifier).classList.toggle("visible");
