@@ -3,114 +3,19 @@
     <title>Web-Slides: Administration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="src/css/reset.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/responsive.css">
+    <script src="src/js/logic.js"></script>
 </head>
-<style>
-    .clearfix:after {
-        visibility: hidden;
-        display: block;
-        font-size: 0;
-        content: " ";
-        clear: both;
-        height: 0;
-    }
-    .clearfix { display: inline-block; }
-    /* start commented backslash hack \*/
-    * html .clearfix { height: 1%; }
-    .clearfix { display: block; }
-    /* close commented backslash hack */
 
-    html,body,div,button {
-        margin:0;
-        padding:0;
-        box-sizing: border-box;
-        border: 0;
-        font-size: 14px;
-        font-family: sans-serif;
-        color: #333;
-        line-height:1em;
-    }
-    body {
-        background-color: #eee;
-    }
-
-    #container {
-        margin: 0 auto;
-        padding: 7px;
-        background-color: #fff;
-        margin-top: 10px;
-        box-shadow: 0px 0px 10px 3px #ccc;
-    }
-
-
-
-    @media (max-width:579px) {
-        #container {
-            width: 95%;
-        }
-    }
-    @media (min-width:950px) {
-        #container {
-            width: 45%;
-        }
-    }
-    @media (min-width:580px) and (max-width:949px) {
-        #container {
-            width: 65%;
-        }
-    }
-
-
-    .slide {
-        display: none;
-    }
-
-    .visible {
-        display: block!important;
-    }
-
-</style>
-<script>
-    var slideIdentifier = 1;
-    window.onload = function() {
-        // show on page load before first rest data was received
-        document.querySelector("#slide-"+slideIdentifier).classList.toggle("visible");
-        getRestData();
-
-
-        setInterval(function(){
-            getRestData();
-        }, 500);
-    };
-
-    function getRestData() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var responseJson = JSON.parse(this.responseText);
-                console.dir(responseJson);
-                if (responseJson.message == "success") {
-                    showSlide(responseJson.currentPageIdentifier);
-                }
-            }
-        };
-        xhttp.open("GET", "rest_get.php", true);
-        xhttp.send();
-    }
-
-    function showSlide(identifier) {
-        if (identifier == "start") {
-            identifier = 1;
-        }
-        // vorheriges verstecken
-        console.dir(document.querySelector("#slide-"+slideIdentifier));
-        console.log("#slide-"+slideIdentifier);
-        document.querySelector("#slide-"+slideIdentifier).classList.toggle("visible");
-        document.querySelector("#slide-"+identifier).classList.toggle("visible");
-        slideIdentifier = identifier;
-    }
-</script>
 <body>
-<div id="container">
+<div id="container" class="box-shadow">
+    <noscript><p>Bitte aktiviere JavaScript in deinem Browser.</p></noscript>
+
+    <div class="slide" id="slide-pause" class="visible">
+        Pause
+    </div>
     <div class="slide" id="slide-1">
         Start (1)
     </div>
@@ -119,9 +24,6 @@
     </div>
     <div class="slide" id="slide-3">
         Start (3)
-    </div>
-    <div class="slide" id="slide-pause">
-        Pause
     </div>
 </div>
 </body>
