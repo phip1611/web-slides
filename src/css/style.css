@@ -39,10 +39,10 @@ noscript p {
 .visible {
     display: block!important;
 
-    -webkit-animation: slide-in-from-right 0.7s; /* Safari 4+ */
-    -moz-animation:    slide-in-from-right 0.7s; /* Fx 5+ */
-    -o-animation:      slide-in-from-right 0.7s; /* Opera 12+ */
-    animation:         slide-in-from-right 0.7s;
+    -webkit-animation: fade-in 0.7s; /* Safari 4+ */
+    -moz-animation:    fade-in 0.7s; /* Fx 5+ */
+    -o-animation:      fade-in 0.7s; /* Opera 12+ */
+    animation:         fade-in 0.7s;
 }
 
 .box-shadow {
@@ -103,5 +103,29 @@ noscript p {
     }
     100% {
         transform: translateX(0);
+    }
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes fade-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Standard syntax */
+@keyframes fade-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
