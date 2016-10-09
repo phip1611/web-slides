@@ -1,8 +1,3 @@
-<?php
-if (isset($_POST['payload'])) {
-
-}
-?>
 <html>
     <head>
         <title>Web-Slides: Administration</title>
