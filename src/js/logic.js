@@ -20,23 +20,7 @@ function calcSlideHeight() {
     var windowAvailableWidth = document.querySelector('body').clientWidth;
     var windowAvailableHeight = document.querySelector('body').clientHeight;
     var slideWidth, slideHeight;
-    slideWidth = windowAvailableWidth-2*outerMargin; // da links und rechts 14px Margin
-
-    // Fenster nicht hoch genug um bei voller Breite 16:9 darzustellen
-    // von Höhe ausgehend Breite berechnen
-
-    console.log("Verfügbare Breite: "+windowAvailableWidth);
-    console.log("Verfügbare Höhe: "+windowAvailableHeight);
-
-    // Höhe ist ausreichend um bei dieser Breite eine auf die volle breite gespannte Slide anzuzeigen
-    if ((windowAvailableWidth-2*outerMargin)/16*9 > windowAvailableHeight) {
-        slideWidth = windowAvailableWidth;
-        slideHeight = slideWidth/16*9;
-    } else {
-        slideHeight = windowAvailableHeight-2*outerMargin;
-        slideWidth = slideHeight/9*16;
-    }
-
+    
     // Verfügbare Breite minus der abstand der links und Rechts sein soll = Breite der Slide!
     slideWidth  = windowAvailableWidth-2*outerMargin;
     slideHeight = slideWidth/16*9;
