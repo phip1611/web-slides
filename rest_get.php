@@ -58,9 +58,14 @@ try {
                 .'ADD PRIMARY KEY (`id`);'
             );
             $pdo->query(
-                 'ALTER TABLE `'.$mysqlData->tableName.'`'
+                'ALTER TABLE `'.$mysqlData->tableName.'`'
                 .'MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;'
             );
+            $pdo->query(
+                'ALTER TABLE `web-slides_sessions` CHANGE `last_updated` `last_updated` DATETIME on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;'
+            );
+
+
             $pdo->query(
                 'INSERT INTO `'.$mysqlData->tableName.'`'
                .'(`presentation_id`) VALUES (1)'
@@ -93,7 +98,7 @@ if ($dataMessage != 'success') {
 } else {
     echo json_encode(array(
         'message' => $dataMessage,
-        'last_updated' => $dataLastUpdated,
+        'lastUpdated' => $dataLastUpdated,
         'currentPageIdentifier' => $dataCurrentSlideIdentifier,
         'presentationId' => $dataPresentationId
     ));

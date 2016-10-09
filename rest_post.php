@@ -37,10 +37,18 @@ if (isset($_POST['payload'])) {
                     );
                 }
 
+                #############################################################
+                // Sicherstellen, dass das Kommando überschrieben wird, da sonst wenn aus "next" wieder "next" wird
+                // on update current timestamp von mysql nicht funktioniert!
+                $stmt = $pdo->query(
+                    'UPDATE `'.$mysqlData->tableName.'` SET `current_slide_identifier` = \'skip\''
+                    .'WHERE `id` = 1'
+                );
                 $stmt = $pdo->query(
                     'UPDATE `'.$mysqlData->tableName.'` SET `current_slide_identifier` = \''.$dataAction.'\''
                     .'WHERE `id` = 1'
                 );
+
                 $dataMessage = 'success';
             } catch (PDOException $ex) { // Tabelle nicht gefunden, versuchen zu erstellen
                 try {
@@ -59,6 +67,9 @@ if (isset($_POST['payload'])) {
                     $pdo->query(
                         'ALTER TABLE `'.$mysqlData->tableName.'`'
                         .'MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;'
+                    );
+                    $pdo->query(
+                        'ALTER TABLE `web-slides_sessions` CHANGE `last_updated` `last_updated` DATETIME on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;'
                     );
                     $pdo->query(
                         'INSERT INTO `'.$mysqlData->tableName.'`'
