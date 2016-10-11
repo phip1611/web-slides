@@ -8,7 +8,7 @@ try { // Tabelle ist vorhanden
     );
 } // Tabelle ist nicht vorhanden
 catch (PDOException $ex) {
-    $sqlStmts = file_get_contents(__DIR__.'/php/createTable.sql');
+    $sqlStmts = file_get_contents(__DIR__.'/createTable.sql');
     $sqlStmts = str_replace('%TABLE_PREFIX%', $mysqlCredentials->tablePrefix, $sqlStmts);
     $sqlStmts = preg_split ('/;/', $sqlStmts);
     array_pop($sqlStmts); // das letzte Element entfernen, da es sonst ne leere Query gibt..
