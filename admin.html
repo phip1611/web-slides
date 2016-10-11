@@ -77,6 +77,8 @@
             font-weight: 900;
             background-color: #eeeeee;
 
+            border-radius: 3px;
+
             -webkit-transition: all ease 0.3s;
             -moz-transition: all ease 0.3s ;
             -ms-transition: all ease 0.3s ;
@@ -89,6 +91,27 @@
             cursor: pointer;
             border: 0;
             outline: 0;
+        }
+        input#slide-id {
+            display: block;
+            margin: 0 auto;
+            width: 94%;
+            line-height: 80px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: 900;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+
+            -webkit-transition: all ease 0.3s;
+            -moz-transition: all ease 0.3s ;
+            -ms-transition: all ease 0.3s ;
+            -o-transition: all ease 0.3s ;
+            transition: all ease 0.3s ;
+            border: 1px solid #ccc;
         }
     </style>
     <script>
@@ -104,6 +127,9 @@
             });
             document.querySelector("#next-button").addEventListener('click', function() {
                 sendRestRequest('next');
+            });
+            document.querySelector("#jump-to-button").addEventListener('click', function() {
+                sendRestRequest(document.querySelector('#slide-id').value);
             });
         };
         function sendRestRequest(action) {
@@ -142,6 +168,14 @@
                 </div>
                 <div class="col">
                     <button type="button" id="next-button">Weiter -></button>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col">
+                    <input type="number" name="slide-id" id="slide-id" value="1"/>
+                </div>
+                <div class="col">
+                    <button type="button" id="jump-to-button">Zur Seite springen</button>
                 </div>
             </div>
         </div>
