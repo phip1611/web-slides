@@ -107,7 +107,7 @@
             });
         };
         function sendRestRequest(action) {
-            var params = "payload={action="+action+"}";
+            var params = "payload={command="+action+"}";
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -119,7 +119,7 @@
                     }
                 }
             };
-            xhttp.open("POST", "rest_post.php", true);
+            xhttp.open("POST", "rest.php", true);
             //Send the proper header information along with the request
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send(params);

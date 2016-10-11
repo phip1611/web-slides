@@ -51,14 +51,14 @@ function getRestData() {
                 console.log("REST-Daten empfangen, Veränderung!");
                 lastRestDataTimestamp = responseJson.lastUpdated;
                 if (responseJson.message == "success") {
-                    showSlide(responseJson.currentPageIdentifier);
+                    showSlide(responseJson.command);
                 }
             } else {
                 console.log("REST-Daten empfangen, KEINE Veränderung!");
             }
         }
     };
-    xhttp.open("GET", "rest_get.php", true);
+    xhttp.open("GET", "rest.php", true);
     xhttp.send();
 }
 
