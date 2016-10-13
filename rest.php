@@ -3,10 +3,10 @@ error_reporting(E_ALL);
 header('Content-Type: application/json');
 
 
-include __DIR__.'/php/Json.class.php';
+include __DIR__ . '/php/Json.class.php';
 $jsonData = new Json();
 
-$mysqlCredentials = include(__DIR__.'/php/mysqlCredentials.config.php');
+$mysqlCredentials = include(__DIR__ . '/php/mysqlCredentials.config.php');
 $pdo = null;
 $dsn = 'mysql:host='.$mysqlCredentials->host.';dbname='.$mysqlCredentials->database.';charset='.$mysqlCredentials->charset;
 $opt = [
@@ -24,11 +24,12 @@ catch (PDOException $ex) {
 }
 
 if (isset($_GET['requestPolling']) && $_GET['requestPolling']) {
-    include __DIR__.'/php/restGetPolling.inc.php';
+    include __DIR__ . '/php/restGetPolling.inc.php';
 }
 else if (isset($_POST['payload'])) {
-    include __DIR__.'/php/restPost.inc.php';
+
+    include __DIR__ . '/php/restPost.inc.php';
 }
 else {
-    include __DIR__.'/php/restGetRegular.inc.php';
+    include __DIR__ . '/php/restGetRegular.inc.php';
 }
