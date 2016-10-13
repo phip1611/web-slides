@@ -12,12 +12,37 @@
 <body>
 <div id="container" class="box-shadow">
     <noscript><p>Bitte aktiviere JavaScript in deinem Browser.</p></noscript>
-
-    <div class="slide visible" id="slide-pause">
-        <h1>Bitte habe einen Moment Geduld</h1>
-        <p>Es wird gleich losgehen ...</p>
-    </div>
-
+    <?php
+    require __DIR__ . '/private/php/pdoConfig.inc.php';
+    try {
+        $pdo = new PDO($dsn, $mysqlCredentials->username, $mysqlCredentials->password, $opt);
+        $sql = file_get_contents('private/src/sql/getPresentationToDisplayIdentifier.sql');
+        $sql = str_replace('%TABLE_PREFIX%', $mysqlCredentials->tablePrefix, $sql);
+        $sql = str_replace('%TABLE_NAME%', $mysqlCredentials->tableName, $sql);
+        try {
+            $stmt = $pdo->query($sql);
+            if (!$stmt->rowCount() == 0) {
+                while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
+                    $pageIdentifier = $row[0];
+                }
+            }
+            if (empty($pageIdentifier)) {
+                // kann passieren wenn in der DB noch nichts steht :)
+                echo file_get_contents(__DIR__ . '/private/src/html/error.html');
+            } else {
+                if (file_exists(__DIR__ . '/private/src/html/presentation'.$pageIdentifier.'.html')) {
+                    echo file_get_contents(__DIR__ . '/private/src/html/presentation'.$pageIdentifier.'.html');
+                } else {
+                    echo file_get_contents(__DIR__ . '/private/src/html/error.html');
+                }
+            }
+        } catch (PDOException $ex) {
+            echo file_get_contents(__DIR__ . '/private/src/html/error.html');
+        }
+    } catch (PDOException $ex) {
+        echo file_get_contents(__DIR__ . '/private/src/html/error.html');
+    }
+    ?>
 </div>
 </body>
 </html>

@@ -37,7 +37,7 @@ Hilfreich, wenn der Nutzer die Präsentation selbst erkunden darf und man ihn da
 
 ###### Liste von Kommandos (für das JSON-"command"-Feld) die vom Front-End unterstützt werden (müssen)
 - "force-refresh"
+- "begin"
 - "next"
 - "back"
-- "pause"
 - "slide:([A-z0-9-:])+"
