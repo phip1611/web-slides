@@ -39,71 +39,68 @@ function calc16to9SlideDimension() {
 };
 function showSlideById(id) {
     if (activeSlideIdentifier == id) return false;
-
-    // Beim aller ersten Seitenaufruf wird noch nichts angezeigt
-    // id daher == -1
-    if (activeSlideIdentifier != -1) {
-        // vorheriges verstecken
-        document.querySelector("#slide-"+activeSlideIdentifier).classList.toggle("visible");
-    }
     var elem = document.querySelector("#slide-"+id);
     if (elem == undefined) {
         console.error("Ungültige Slide-ID!");
         return false;
     }
-    document.querySelector("#slide-"+id).classList.toggle("visible");
+
+    // Beim aller ersten Seitenaufruf wird noch nichts angezeigt
+    // id daher == -1 (lokaler default wert)
+    if (activeSlideIdentifier != -1) {
+        // vorheriges verstecken
+        document.querySelector("#slide-"+activeSlideIdentifier).classList.toggle("visible");
+    }
+    elem.classList.toggle("visible");
     activeSlideIdentifier = id;
 };
-function showSlideByCommand(command) {
-    var nextSlideIdentifier = -1;// default
-
-    console.log("command: "+command);
+function commandHandler(command) {
+    // BUGFIX
+    //  aus irgend einem Grund wurden ID's plötzlich konkateniert
+    //  statt adiert, das hier fixt es...
+    activeSlideIdentifier = parseInt(activeSlideIdentifier);
 
     // wenn die gleiche Seite erneut angeschaut werden soll, abbrechen
-    if (command == activeSlideIdentifier) return;
+    if (command == activeSlideIdentifier) return false;
     // derzeit unwahrscheinlich aber so ist die anwendung für die zukunft gerüstet
-    if (command == "skip") return;
-    if (command == "force-reload") {
+    if (command == "skip") return false;
+    if (!restData.options.followServerCommands) return false;
+    if (command == "force-reload" || command == "force-refresh") {
         location.reload(true);
-        return;
+        return true;
     }
     // Fallback, da es das pause-Command mal gab
-    if (command == "pause") {
-        nextSlideIdentifier = 1;
-    }
-    else if (command == "begin" || command == "start") {
-        nextSlideIdentifier = 1;
+    if (command == "pause" || command == "begin" || command == "start") {
+        showSlideById(1);
     }
     else if (/^(slide:)([A-z0-9-]+)$/.test(command)) {
-        nextSlideIdentifier = command.split("slide:")[1];
+        showSlideById(command.split("slide:")[1]);
     }
     else if (command == "next" && activeSlideIdentifier < slideCount) {
-        nextSlideIdentifier = activeSlideIdentifier+1;
+        showSlideById(activeSlideIdentifier+1);
     }
     else if (command == "back" && activeSlideIdentifier > 1) {
-        nextSlideIdentifier = activeSlideIdentifier-1;
+        showSlideById(activeSlideIdentifier-1);
     }
     else {
         return false;
     }
-    showSlideById(nextSlideIdentifier);
 };
 function registerKeyListener() {
     window.onkeyup = function(e) {
         if (restData.options.allowUserNavigation) {
             // left arrow
             if (e.keyCode == 37) {
-                showSlideByCommand("back");
+                commandHandler("back");
             }
             // right arrow
             else if (e.keyCode == 39) {
-                showSlideByCommand("next");
+                commandHandler("next");
             }
         }
     }
 };
 function restDataHandler(responseText) {
-
     var responseJson;
     try {
         responseJson = JSON.parse(responseText);
@@ -113,21 +110,12 @@ function restDataHandler(responseText) {
         return false;
     }
 
-
-    console.log("referenceDatetimeLocal: "+restData.referenceDatetime);
-    console.log("referenceDatetimeServer: "+responseJson.referenceDatetime);
-
-    if (!restData.options.followServerCommands) {
-        console.log("Es kam ein neues Kommando rein, aber followServerCommands ist false!");
-    }
-
     if (responseJson.message == "success") {
         // Gab eine Veränderung
         if (responseJson.referenceDatetime != restData.referenceDatetime) {
             console.log("REST-Daten empfangen, Veränderung!");
             restData = responseJson;
-            showSlideByCommand(restData.command);
-
+            commandHandler(restData.command);
             // Beim Polling muss nach dem Ende einer Anfrage eine neue gestartet werden!
             if (restData.options.usePolling) {
                 getRestData(REST_URL_POLLING);
@@ -145,7 +133,6 @@ function getRestData(url) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             restDataHandler(this.responseText);
         }
     };
