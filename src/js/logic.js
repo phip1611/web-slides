@@ -1,3 +1,6 @@
+var REST_URL = "rest.php";
+var REST_URL_POLLING = "rest.php?requestPolling=true";
+
 var defaultData = {
     "command": "slide:1",
     "referenceDatetime": "",
@@ -35,24 +38,35 @@ function calc16to9SlideDimension() {
     document.querySelector('#container').style.width  = slideWidth;
 };
 function showSlideById(id) {
-    // Der aller erste Seitenaufruf, es wird noch nicths angezeigt
-    if (activeSlideIdentifier == -1) {
-        document.querySelector("#slide-"+id).classList.toggle("visible");
-    } else {
+    if (activeSlideIdentifier == id) return false;
+
+    // Beim aller ersten Seitenaufruf wird noch nichts angezeigt
+    // id daher == -1
+    if (activeSlideIdentifier != -1) {
         // vorheriges verstecken
         document.querySelector("#slide-"+activeSlideIdentifier).classList.toggle("visible");
-        // aktuelels anzeigen
-        document.querySelector("#slide-"+id).classList.toggle("visible");
     }
+    var elem = document.querySelector("#slide-"+id);
+    if (elem == undefined) {
+        console.error("Ungültige Slide-ID!");
+        return false;
+    }
+    document.querySelector("#slide-"+id).classList.toggle("visible");
     activeSlideIdentifier = id;
 };
 function showSlideByCommand(command) {
     var nextSlideIdentifier = -1;// default
 
+    console.log("command: "+command);
+
     // wenn die gleiche Seite erneut angeschaut werden soll, abbrechen
     if (command == activeSlideIdentifier) return;
     // derzeit unwahrscheinlich aber so ist die anwendung für die zukunft gerüstet
     if (command == "skip") return;
+    if (command == "force-reload") {
+        location.reload(true);
+        return;
+    }
     // Fallback, da es das pause-Command mal gab
     if (command == "pause") {
         nextSlideIdentifier = 1;
@@ -70,20 +84,9 @@ function showSlideByCommand(command) {
         nextSlideIdentifier = activeSlideIdentifier-1;
     }
     else {
-        return;
+        return false;
     }
-
-    // zu dev zwecken
-    if (nextSlideIdentifier == -1) {
-        console.error("nextSlideIdentifier ist -1, das sollte aber nicht passieren!");
-    }
-
-    // vorheriges verstecken
-    document.querySelector("#slide-"+activeSlideIdentifier).classList.toggle("visible");
-    // aktuelels anzeigen
-    document.querySelector("#slide-"+nextSlideIdentifier).classList.toggle("visible");
-
-    activeSlideIdentifier = nextSlideIdentifier;
+    showSlideById(nextSlideIdentifier);
 };
 function registerKeyListener() {
     window.onkeyup = function(e) {
@@ -99,82 +102,75 @@ function registerKeyListener() {
         }
     }
 };
+function restDataHandler(responseText) {
 
-/*
- TODO
-   - <strike>Wenn im Polling-Modus, dann wird nach erhaltener antwrort keine weitere Anfrage gestellt</strike>
-   - Es werden zwei Polling Request Anfragen gleichzeitig gesendet, das ist nicht okay!
-   - wenn man serverseitig eine Änderung des netzwerkmethode im laufendne betrieb vornimmt dann
-     passiert auch was blödes
+    var responseJson;
+    try {
+        responseJson = JSON.parse(responseText);
+    } catch (ex) {
+        console.error("invalid JSON response!");
+        console.dir(ex);
+        return false;
+    }
 
- */
 
-function getRestData(usePolling) {
+    console.log("referenceDatetimeLocal: "+restData.referenceDatetime);
+    console.log("referenceDatetimeServer: "+responseJson.referenceDatetime);
+
+    if (!restData.options.followServerCommands) {
+        console.log("Es kam ein neues Kommando rein, aber followServerCommands ist false!");
+    }
+
+    if (responseJson.message == "success") {
+        // Gab eine Veränderung
+        if (responseJson.referenceDatetime != restData.referenceDatetime) {
+            console.log("REST-Daten empfangen, Veränderung!");
+            restData = responseJson;
+            showSlideByCommand(restData.command);
+
+            // Beim Polling muss nach dem Ende einer Anfrage eine neue gestartet werden!
+            if (restData.options.usePolling) {
+                getRestData(REST_URL_POLLING);
+            }
+        }
+    }
+    else {
+        console.error("Server gab \"error\" zurück");
+        if (responseJson.errorDetail != undefined) {
+        console.error("Error-Details: "+responseJson.errorDetail);
+        }
+    }
+}
+function getRestData(url) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var responseJson = JSON.parse(this.responseText);
-            // Gab eine Veränderung
-            if (responseJson.message == "success") {
-                // aktuelels datum != vorheriges datum
-                if (responseJson.referenceDatetime != restData.referenceDatetime) {
-                    console.log("REST-Daten empfangen, Veränderung!");
-                    restData.referenceDatetime = responseJson.referenceDatetime;
-                    // Wenn es eine Veränderung des Kommandos gab
-                    if (responseJson.comand != restData.command) {
-                        showSlideByCommand(responseJson.command);
-                    }
-                    if (responseJson.options != restData.options) {
-                        restData.options = responseJson.options;
-                    }
-                }
-            }
-            else {
-                console.error("Server gab \"error\" zurück");
-                if (responseJson.errorDetail != undefined) {
-                    console.error("Error-Details: "+responseJson.errorDetail);
-                }
-            }
-
-
-            if (restData.options.usePolling) {
-                // die nächste anfrage starten!
-                getRestData(true);
-            }
+            console.log(this.responseText);
+            restDataHandler(this.responseText);
         }
     };
-    if (usePolling) {
-        xhttp.open("GET", "rest.php?requestPolling=true", true);
-    }
-    else {
-        xhttp.open("GET", "rest.php", true);
-    }
+    xhttp.open("GET", url, true);
     xhttp.send();
 };
 function setRestDataListener() {
     if (restData.options.usePolling) {
-        getRestData(true);
+        getRestData(REST_URL_POLLING);
     }
-    else {
-        window.setInterval(function() {
-            getRestData(false);
-        }, restData.options.refreshRate);
+}
+function registerWindowResizeListener() {
+    window.onresize = function() {
+        calc16to9SlideDimension();
     }
-
-    /*var internalCallback = function() {
-        window.setTimeout(function() {
-
-        }, restData.options.refreshRate);
-    };*/
 }
 
 window.onload = function() {
     calcSlideCount();
+    registerWindowResizeListener();
     calc16to9SlideDimension();
-    showSlideById(1);// Startseite
+    //showSlideById(1);// Startseite
     registerKeyListener();
-    getRestData(false);
-    setRestDataListener();
+    getRestData(REST_URL);
+    //setRestDataListener();
 };
 
 

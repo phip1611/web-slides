@@ -1,3 +1,6 @@
+<?php
+error_reporting(null);
+?>
 <html>
 <head>
     <title>Web-Slides: Präsentation</title>
@@ -13,6 +16,7 @@
 <div id="container" class="box-shadow">
     <noscript><p>Bitte aktiviere JavaScript in deinem Browser.</p></noscript>
     <?php
+    $slideIdentifier = '';
     require __DIR__ . '/private/php/pdoConfig.inc.php';
     try {
         $pdo = new PDO($dsn, $mysqlCredentials->username, $mysqlCredentials->password, $opt);
@@ -23,15 +27,15 @@
             $stmt = $pdo->query($sql);
             if (!$stmt->rowCount() == 0) {
                 while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
-                    $pageIdentifier = $row[0];
+                    $slideIdentifier = $row[0];
                 }
             }
-            if (empty($pageIdentifier)) {
+            if (empty($slideIdentifier)) {
                 // kann passieren wenn in der DB noch nichts steht :)
                 echo file_get_contents(__DIR__ . '/private/src/html/error.html');
             } else {
-                if (file_exists(__DIR__ . '/private/src/html/presentation'.$pageIdentifier.'.html')) {
-                    echo file_get_contents(__DIR__ . '/private/src/html/presentation'.$pageIdentifier.'.html');
+                if (file_exists(__DIR__ . '/private/src/html/presentation'.$slideIdentifier.'.html')) {
+                    echo file_get_contents(__DIR__ . '/private/src/html/presentation'.$slideIdentifier.'.html');
                 } else {
                     echo file_get_contents(__DIR__ . '/private/src/html/error.html');
                 }
