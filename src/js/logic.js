@@ -99,6 +99,16 @@ function registerKeyListener() {
         }
     }
 };
+
+/*
+ TODO
+   - <strike>Wenn im Polling-Modus, dann wird nach erhaltener antwrort keine weitere Anfrage gestellt</strike>
+   - Es werden zwei Polling Request Anfragen gleichzeitig gesendet, das ist nicht okay!
+   - wenn man serverseitig eine Änderung des netzwerkmethode im laufendne betrieb vornimmt dann
+     passiert auch was blödes
+
+ */
+
 function getRestData(usePolling) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
