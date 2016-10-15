@@ -6,6 +6,7 @@ Das ist ein einfaches Freizeit-Projekt aus Spaß um bisschen mit MySQL, JSON und
 ## TODO
 - admin.php mit Passwort schützen!
 - normales GET-Abfragen ohne Polling noch implementieren. Lohnt sich das überhaupt? Überdenken, vllt streichen...
+- das mit den Popups verbessern
 
 ## Entwicklerinformationen
 In Tabelle steht nur eine einzige Zeile, es ist nicht geplant mehrere zu haben.
