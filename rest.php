@@ -16,13 +16,12 @@ catch (PDOException $ex) {
     die($jsonData->getJsonAsString());
 }
 
-if (isset($_GET['requestPolling']) && $_GET['requestPolling'] == "true") {
-    include __DIR__ . '/private/php/restGetPolling.inc.php';
+if (isset($_POST['admin']) && $_POST['admin'] == "true") {
+    require __DIR__ . '/private/php/restPostAdmin.inc.php';
 }
-else if (isset($_POST['payload'])) {
-
-    include __DIR__ . '/private/php/restPost.inc.php';
+else if (isset($_GET['requestPolling']) && $_GET['requestPolling'] == "true") {
+    require __DIR__ . '/private/php/restGetPolling.inc.php';
 }
 else {
-    include __DIR__ . '/private/php/restGetRegular.inc.php';
+    require __DIR__ . '/private/php/restGetRegular.inc.php';
 }
