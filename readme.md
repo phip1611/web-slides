@@ -1,12 +1,5 @@
 # Web-Slides
 
-## TODO
-- followServerCommands:false; ist noch nicht implementiert. Wenn das der Fall ist, dann
-darf der Client durch die Präsentation skippen ohne von Server-Commands 
-belästigt zu werden.
-- regularRestRequests mit Refresh alle x Sekunden vorsichtshalber noch implementieren!
-- popup-Funktionalität weiter testen
-
 ## Über das Projekt
 Das ist ein einfaches Freizeit-Projekt aus Spaß um bisschen mit MySQL, JSON und REST zu spielen. Gedacht ist es, dass X Clients auf eine Präsentations-Webseite gehen und ich über eine weitere Steuerungsseite einstellen kann, was diese zu sehen bekommen.
 
@@ -14,11 +7,34 @@ Das ist ein einfaches Freizeit-Projekt aus Spaß um bisschen mit MySQL, JSON und
 In Tabelle steht nur eine einzige Zeile, es ist nicht geplant mehrere zu haben.
 Dort steht die aktuelle Slide-ID, die über REST abgefragt wird.
 
-## REST-JSON-Vorlage
+## REST-Schnittstelle
+#### GET:  REST-Schnittstelle
+- **/rest.php** liefert das komplette, für die Anwendung relevante JSON
+- **/rest.php?requestPolling=true** entsprechend mit HTTP-Polling
+
+#### POST: REST-Schnittstelle
+- **/rest.php** mit POST-Daten
+```
+Alle Daten updaten:
+  admin=true&payload=%KOMPLETTES JSON%
+    alias
+  admin=true&whatToUpdate=all&payload=%KOMPLETTES JSON%
+  
+Nur command updaten:
+  admin=true&whatToUpdate=command&payload=%KOMMANDO%
+  
+Nur options updaten:
+  admin=true&whatToUpdate=command&payload=%OPTIONS_JSON_OHNE_OPTIONS_KEYWORD%
+  
+Nur presentationIdentifier updaten:
+  admin=true&whatToUpdate=command&payload=%PRESENTATION_IDENTIFIER%
+```
+
+### REST-JSON-Vorlage
 Hier eine Vorlage für ein JSON, wie es der Client vom Server abruft. Das ist die verbindliche Vorlage,
  aus der die Funktionalitäten der App im Back- und Frontend ableiten lassen.
 
-######Hinweise:
+#####Hinweise:
 - **refreshRate** ist die Anzahl der Millisekunden, nach denen im normalen GET-REST-Modus nach Aktualisierungen angefragt werden soll
 - **allowUserNavigation** bedeutet, dass der User mit den Pfeiltasten durch die Präsentation navigieren darf
 - **followServerCommands** gibt an, ob der Client auf z.B. "next"-Anweisungen vom Server reagieren soll oder nicht.
@@ -33,7 +49,7 @@ Hilfreich, wenn der Nutzer die Präsentation selbst erkunden darf und man ihn da
     "lastCommandDatetime": "2016-10-23 20:56:13",
     "command": "slide:5",
     "options": {
-       "usePolling": false,
+       "usePolling": true,
        "useRegularGet": true,
        "refreshRate": 500,
        "allowUserNavigation": false,
@@ -42,7 +58,7 @@ Hilfreich, wenn der Nutzer die Präsentation selbst erkunden darf und man ihn da
 }
 ```
 
-###### Liste von Kommandos (für das JSON-"command"-Feld) die vom Front-End unterstützt werden (müssen)
+##### Liste von Kommandos (für das JSON-"command"-Feld) die vom Front-End unterstützt werden (müssen)
 - "force-refresh"
 - "begin"
 - "next"
