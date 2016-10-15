@@ -171,14 +171,17 @@ function showPopup(id) {
         }
     })
 }
+function hideAllPopups() {
+    var elements = document.querySelectorAll(".popup");
+}
 
 window.onload = function() {
     calcSlideCount();
     registerWindowResizeListener();
     calc16to9SlideDimension();
-    //showSlideById(1);// Startseite
+    showSlideById(1);// Startseite zu Beginn anzeigen
+    getRestData(REST_URL); // aktuelle
     registerKeyListener();
-    getRestData(REST_URL);
     //setRestDataListener();
 };
 

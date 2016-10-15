@@ -119,6 +119,14 @@ noscript p {
 }
 
 
+/*
+TODO: Implement popup design!
+*/
+.popup {
+    display: none;
+}
+
+
 /* Chrome, Safari, Opera */
 @-webkit-keyframes slide-in-from-left {
     0%   {
