@@ -5,7 +5,8 @@ Das ist ein einfaches Freizeit-Projekt aus Spaß um bisschen mit MySQL, JSON und
 
 ## Entwicklerinformationen
 In Tabelle steht nur eine einzige Zeile, es ist nicht geplant mehrere zu haben.
-Dort steht die aktuelle Slide-ID, die über REST abgefragt wird.
+Dort steht die aktuelle Slide-ID, die über REST abgefragt wird. So muss ich keine 
+eigene XML/JSON/Whatever-Datei-Verwaltung schreiben und kann On-Update-Current-Timestamp nutzen.
 
 ## REST-Schnittstelle
 #### GET:  REST-Schnittstelle
