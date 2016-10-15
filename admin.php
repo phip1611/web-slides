@@ -128,6 +128,9 @@
             document.querySelector("#jump-to-button").addEventListener('click', function() {
                 sendRestRequest('command', 'slide:'+document.querySelector('#slide-id').value);
             });
+            document.querySelector("#force-reload-button").addEventListener('click', function() {
+                sendRestRequest('command', 'force-reload');
+            });
         };
         function sendRestRequest(whatToUpdate, payload) {
             var params = "admin=true&whatToUpdate="+whatToUpdate+"&payload="+payload;
@@ -168,6 +171,7 @@
                 <div class="col">
                     <button type="button" id="jump-to-button">Zur Seite springen</button>
                 </div>
+                <button type="button" id="force-reload-button">Neu laden erzwingen</button>
             </div>
         </div>
     </body>
