@@ -117,23 +117,20 @@
     <script>
         window.onload = function() {
             document.querySelector("#start-button").addEventListener('click', function() {
-                sendRestRequest('start');
-            });
-            document.querySelector("#pause-button").addEventListener('click', function() {
-                sendRestRequest('pause');
+                sendRestRequest('command', 'start');
             });
             document.querySelector("#back-button").addEventListener('click', function() {
-                sendRestRequest('back');
+                sendRestRequest('command', 'back');
             });
             document.querySelector("#next-button").addEventListener('click', function() {
-                sendRestRequest('next');
+                sendRestRequest('command', 'next');
             });
             document.querySelector("#jump-to-button").addEventListener('click', function() {
-                sendRestRequest(document.querySelector('#slide-id').value);
+                sendRestRequest('command', 'slide:'+document.querySelector('#slide-id').value);
             });
         };
-        function sendRestRequest(action) {
-            var params = "payload={command="+action+"}";
+        function sendRestRequest(whatToUpdate, payload) {
+            var params = "admin=true&whatToUpdate="+whatToUpdate+"&payload="+payload;
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
@@ -149,18 +146,12 @@
             //Send the proper header information along with the request
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send(params);
-            console.log("Action:"+action+" an Server gesendet");
         }
     </script>
     <body>
         <div id="container">
             <div class="row clearfix">
-                <div class="col">
-                    <button type="button" id="start-button">Start</button>
-                </div>
-                <div class="col">
-                    <button type="button" id="pause-button">Pause</button>
-                </div>
+                <button type="button" id="start-button">Start</button>
             </div>
             <div class="row clearfix">
                 <div class="col">
