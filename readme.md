@@ -25,10 +25,10 @@ Nur command updaten:
   admin=true&whatToUpdate=command&payload=%KOMMANDO%
   
 Nur options updaten:
-  admin=true&whatToUpdate=command&payload=%OPTIONS_JSON_OHNE_OPTIONS_KEYWORD%
+  admin=true&whatToUpdate=options&payload=%OPTIONS_JSON_OHNE_OPTIONS_KEYWORD%
   
 Nur presentationIdentifier updaten:
-  admin=true&whatToUpdate=command&payload=%PRESENTATION_IDENTIFIER%
+  admin=true&whatToUpdate=presentationIdentifier&payload=%PRESENTATION_IDENTIFIER%
 ```
 
 ### REST-JSON-Vorlage
