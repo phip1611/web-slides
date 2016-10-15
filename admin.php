@@ -131,6 +131,18 @@
             document.querySelector("#force-reload-button").addEventListener('click', function() {
                 sendRestRequest('command', 'force-reload');
             });
+
+
+            <!-- ACHTUNG DAS IS NOCH MEGA HÄSSLICH -->
+            <!-- HIER WERDEN ALLE OPTIONS AUF DEFAULT GESTELLT -->
+            document.querySelector("#disable-user-navigation-button").addEventListener('click', function() {
+                sendRestRequest('options', JSON.stringify({"usePolling":true,"useRegularGet":true,
+                "refreshRate":500,"allowUserNavigation":false,"followServerCommands":true}));
+            });
+            document.querySelector("#allow-user-navigation-button").addEventListener('click', function() {
+                sendRestRequest('options', JSON.stringify({"usePolling":true,"useRegularGet":true,
+                    "refreshRate":500,"allowUserNavigation":true,"followServerCommands":true}));
+            });
         };
         function sendRestRequest(whatToUpdate, payload) {
             var params = "admin=true&whatToUpdate="+whatToUpdate+"&payload="+payload;
@@ -171,7 +183,17 @@
                 <div class="col">
                     <button type="button" id="jump-to-button">Zur Seite springen</button>
                 </div>
+            </div>
+            <div class="row clearfix">
                 <button type="button" id="force-reload-button">Neu laden erzwingen</button>
+            </div>
+            <div class="row clearfix">
+                <div class="col">
+                    <button type="button" id="disable-user-navigation-button">DISABLE User Navigation</button>
+                </div>
+                <div class="col">
+                    <button type="button" id="allow-user-navigation-button">ALLOW User Navigation</button>
+                </div>
             </div>
         </div>
     </body>
