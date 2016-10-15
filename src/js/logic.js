@@ -69,8 +69,12 @@ function commandHandler(command) {
         location.reload(true);
         return true;
     }
+
+    if (/^(popup:)([A-z0-9-]+)$/.test(command)) {
+        showPopup(command.split("popup:")[1]);
+    }
     // Fallback, da es das pause-Command mal gab
-    if (command == "pause" || command == "begin" || command == "start") {
+    else if (command == "pause" || command == "begin" || command == "start") {
         showSlideById(1);
     }
     else if (/^(slide:)([A-z0-9-]+)$/.test(command)) {
@@ -148,6 +152,24 @@ function registerWindowResizeListener() {
     window.onresize = function() {
         calc16to9SlideDimension();
     }
+}
+function showPopup(id) {
+    var elem = document.querySelector("#popup-"+id);
+    var elem2;
+    if (elem == undefined) return false;
+    if (activeSlideIdentifier != -1) {
+        elem2 = document.querySelector("#slide-"+activeSlideIdentifier);
+        elem2.classList.toggle("visible");
+    }
+    elem = document.querySelector("#popup-"+id);
+    elem.classList.toggle("visible");
+    elem.addEventListener('click', function () {
+        console.log("hide popup");
+        elem.classList.toggle("visible");
+        if (elem != undefined) {
+            elem2.classList.toggle("visible");
+        }
+    })
 }
 
 window.onload = function() {

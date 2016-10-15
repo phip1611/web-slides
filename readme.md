@@ -1,9 +1,11 @@
 # Web-Slides
 
 ## TODO
-followServerCommands:false; ist noch nicht implementiert. Wenn das der Fall ist, dann
+- followServerCommands:false; ist noch nicht implementiert. Wenn das der Fall ist, dann
 darf der Client durch die Präsentation skippen ohne von Server-Commands 
 belästigt zu werden.
+- regularRestRequests mit Refresh alle x Sekunden vorsichtshalber noch implementieren!
+- popup-Funktionalität weiter testen
 
 ## Über das Projekt
 Das ist ein einfaches Freizeit-Projekt aus Spaß um bisschen mit MySQL, JSON und REST zu spielen. Gedacht ist es, dass X Clients auf eine Präsentations-Webseite gehen und ich über eine weitere Steuerungsseite einstellen kann, was diese zu sehen bekommen.

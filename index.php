@@ -46,6 +46,12 @@ error_reporting(null);
     } catch (PDOException $ex) {
         echo file_get_contents(__DIR__ . '/private/src/html/error.html');
     }
+
+
+    /* fun-zeug für trollface, dickbut und co*/
+    if (file_exists(__DIR__ . '/private/src/html/defaultHTMLThatShouldBeAddedToEveryPresentation.html')) {
+        echo file_get_contents(__DIR__ . '/private/src/html/defaultHTMLThatShouldBeAddedToEveryPresentation.html');
+    }
     ?>
 </div>
 </body>
