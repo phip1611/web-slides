@@ -49,6 +49,8 @@ function showSlideById(id) {
         return false;
     }
 
+    hideAllPopups();
+
     // Beim aller ersten Seitenaufruf wird noch nichts angezeigt
     // id daher == -1 (lokaler default wert)
     if (activeSlideIdentifier != -1) {
@@ -74,6 +76,9 @@ function commandHandler(command) {
         if (!(/^(slide:)([A-z0-9-]+)$/.test(command))) {
             showSlideById(1);
             return true;
+        }
+        else {
+            showSlideById(command.split("slide:")[1]);
         }
     }
     else {
@@ -192,6 +197,11 @@ function showPopup(id) {
 }
 function hideAllPopups() {
     var elements = document.querySelectorAll(".popup");
+    elements.forEach(function(elem) {
+        if (elem.classList.contains("visible")) {
+            elem.classList.toggle("visible")
+        }
+    });
 }
 
 window.onload = function() {

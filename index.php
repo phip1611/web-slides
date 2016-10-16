@@ -49,8 +49,8 @@ error_reporting(null);
 
 
     /* fun-zeug für trollface, dickbut und co*/
-    if (file_exists(__DIR__ . '/private/src/html/defaultHTMLThatShouldBeAddedToEveryPresentation.html')) {
-        echo file_get_contents(__DIR__ . '/private/src/html/defaultHTMLThatShouldBeAddedToEveryPresentation.html');
+    if (file_exists(__DIR__ . '/private/src/html/generalPopupsAndMemes.html')) {
+        echo file_get_contents(__DIR__ . '/private/src/html/generalPopupsAndMemes.html');
     }
     ?>
 </div>

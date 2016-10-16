@@ -77,7 +77,7 @@ noscript p {
     padding-left: 2%;
 }
 .slide.fullscreen-image {
-    position: relative;
+    position: relative; /*damit das mit h1 klappt*/
 }
 .slide.fullscreen-image h1 {
     margin: 0;
@@ -119,13 +119,12 @@ noscript p {
 }
 
 
-/*
-TODO: Implement popup design!
-*/
 .popup {
     display: none;
 }
-
+.popup img {
+    width: 100%; /* bild skaliert auf die breite der folie*/
+}
 
 /* Chrome, Safari, Opera */
 @-webkit-keyframes slide-in-from-left {
