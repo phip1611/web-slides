@@ -39,6 +39,10 @@ function calc16to9SlideDimension() {
 };
 function showSlideById(id) {
     if (activeSlideIdentifier == id) return false;
+
+    // das kann nur sein, wenn der Server warum auch immer -1 sendet
+    // sozusagen übervorsichtiges Error-Handling :D
+    if (id == -1) return false;
     var elem = document.querySelector("#slide-"+id);
     if (elem == undefined) {
         console.error("Ungültige Slide-ID!");
@@ -60,34 +64,45 @@ function commandHandler(command) {
     //  statt adiert, das hier fixt es...
     activeSlideIdentifier = parseInt(activeSlideIdentifier);
 
-    // wenn die gleiche Seite erneut angeschaut werden soll, abbrechen
     if (command == activeSlideIdentifier) return false;
-    // derzeit unwahrscheinlich aber so ist die anwendung für die zukunft gerüstet
-    if (command == "skip") return false;
     if (!restData.options.followServerCommands) return false;
-    if (command == "force-reload" || command == "force-refresh") {
-        location.reload(true);
-        return true;
-    }
 
-    if (/^(popup:)([A-z0-9-]+)$/.test(command)) {
-        showPopup(command.split("popup:")[1]);
-    }
-    // Fallback, da es das pause-Command mal gab
-    else if (command == "pause" || command == "begin" || command == "start") {
-        showSlideById(1);
-    }
-    else if (/^(slide:)([A-z0-9-]+)$/.test(command)) {
-        showSlideById(command.split("slide:")[1]);
-    }
-    else if (command == "next" && activeSlideIdentifier < slideCount) {
-        showSlideById(activeSlideIdentifier+1);
-    }
-    else if (command == "back" && activeSlideIdentifier > 1) {
-        showSlideById(activeSlideIdentifier-1);
+    // beim Laden der Seite // bevor irgendeine Slide zu sehen ist
+    if (activeSlideIdentifier == -1) {
+        // Wenn nicht explizit eine slide-id angegeben wird
+        // beim ersten anschauen der Seite, dann wird die Slide 1 angezeigt
+        if (!(/^(slide:)([A-z0-9-]+)$/.test(command))) {
+            showSlideById(1);
+            return true;
+        }
     }
     else {
-        return false;
+        if (/^(slide:)([A-z0-9-]+)$/.test(command)) {
+            showSlideById(command.split("slide:")[1]);
+        }
+        else if (command == "force-reload" || command == "force-refresh") {
+            location.reload(true);
+        }
+        // Fallback, da es das pause-Command mal gab
+        else if (command == "pause" || command == "begin" || command == "start") {
+            showSlideById(1);
+        }
+        else if (command == "next" && activeSlideIdentifier < slideCount) {
+            showSlideById(activeSlideIdentifier+1);
+        }
+        else if (command == "back" && activeSlideIdentifier > 1) {
+            showSlideById(activeSlideIdentifier-1);
+        }
+        else if (/^(popup:)([A-z0-9-]+)$/.test(command)) {
+            showPopup(command.split("popup:")[1]);
+        }
+        else if (command == "skip") {
+            return false;
+        }
+        else {
+            console.error("Unbekanntes Server-Kommando: "+command);
+            return false;
+        }
     }
 };
 function registerKeyListener() {
@@ -179,8 +194,7 @@ window.onload = function() {
     calcSlideCount();
     registerWindowResizeListener();
     calc16to9SlideDimension();
-    showSlideById(1);// Startseite zu Beginn anzeigen
-    getRestData(REST_URL); // aktuelle
+    getRestData(REST_URL); // aktuelle Kinfoguration abrufen + aktuelles Kommando
     registerKeyListener();
     //setRestDataListener();
 };
