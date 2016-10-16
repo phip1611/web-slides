@@ -87,11 +87,15 @@ function commandHandler(command) {
         else if (command == "pause" || command == "begin" || command == "start") {
             showSlideById(1);
         }
-        else if (command == "next" && activeSlideIdentifier < slideCount) {
-            showSlideById(activeSlideIdentifier+1);
+        else if (command == "next") {
+            if (activeSlideIdentifier < slideCount) {
+                showSlideById(activeSlideIdentifier+1);
+            }
         }
-        else if (command == "back" && activeSlideIdentifier > 1) {
-            showSlideById(activeSlideIdentifier-1);
+        else if (command == "back") {
+            if (activeSlideIdentifier > 1) {
+                showSlideById(activeSlideIdentifier-1);
+            }
         }
         else if (/^(popup:)([A-z0-9-]+)$/.test(command)) {
             showPopup(command.split("popup:")[1]);
