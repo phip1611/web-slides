@@ -1,5 +1,5 @@
 UPDATE `%TABLE_PREFIX%%TABLE_NAME%`
 SET `command`=:command,
-    `presentationIdentifier`=:presentationIdentifier,
+    `presentation_identifier`=:presentationIdentifier,
     `options`=:options
 WHERE `id` = 1;

@@ -1,6 +1,6 @@
 <?php
-#error_reporting(null); #production
-error_reporting(E_ALL); #dev
+error_reporting(null); #production
+#error_reporting(E_ALL); #dev
 header('Content-Type: application/json');
 
 include __DIR__.'/private/php/pdoConfig.inc.php';

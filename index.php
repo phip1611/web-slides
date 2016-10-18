@@ -1,5 +1,6 @@
 <?php
 error_reporting(null);
+#error_reporting(E_ALL);
 ?>
 <html>
 <head>
@@ -34,8 +35,8 @@ error_reporting(null);
                 // kann passieren wenn in der DB noch nichts steht :)
                 echo file_get_contents(__DIR__ . '/private/src/html/error.html');
             } else {
-                if (file_exists(__DIR__ . '/private/src/html/presentation'.$slideIdentifier.'.html')) {
-                    echo file_get_contents(__DIR__ . '/private/src/html/presentation'.$slideIdentifier.'.html');
+                if (file_exists(__DIR__ . '/private/src/html/presentation-'.$slideIdentifier.'.html')) {
+                    echo file_get_contents(__DIR__ . '/private/src/html/presentation-'.$slideIdentifier.'.html');
                 } else {
                     echo file_get_contents(__DIR__ . '/private/src/html/error.html');
                 }

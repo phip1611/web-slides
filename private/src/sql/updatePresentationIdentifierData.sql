@@ -1,3 +1,3 @@
 UPDATE `%TABLE_PREFIX%%TABLE_NAME%`
-SET `presentationIdentifier`=:presentationIdentifier
+SET `presentation_identifier`=:presentationIdentifier
 WHERE `id` = 1;

@@ -16,7 +16,6 @@ try {
         // den wollen wir nicht 2mal :)
     }
     $jsonData->setData("message", "success");
-    $stmt = null;
     die($jsonData->getJsonAsString());
 } catch (PDOException $ex) {
     $jsonData->setData("message", "error");
