@@ -10,10 +10,7 @@ try {
     while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
         $jsonData->setData("referenceDatetime", $row[0]);
         $jsonData->setData("command", $row[1]);
-        $jsonData->setData("options", json_decode($row[2])->options);
-        // decode, da das als JSON in der DB liegt :)
-        // options-key ist bereits im DB-JSON,
-        // den wollen wir nicht 2mal :)
+        $jsonData->setData("options", json_decode($row[2]));
     }
     $jsonData->setData("message", "success");
     die($jsonData->getJsonAsString());

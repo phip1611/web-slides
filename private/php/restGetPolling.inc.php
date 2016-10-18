@@ -23,7 +23,7 @@ while (true) {
             if ($restReferenceDatetime != $row[0]) {
                 $jsonData->setData("referenceDatetime", $row[0]);
                 $jsonData->setData("command", $row[1]);
-                $jsonData->setData("options", json_decode($row[2])->options);
+                $jsonData->setData("options", json_decode($row[2]));
                 $jsonData->setData("message", "success");
                 die($jsonData->getJsonAsString());
             }

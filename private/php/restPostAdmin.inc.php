@@ -99,7 +99,6 @@ else if (isset($_POST['whatToUpdate']) && $_POST['whatToUpdate'] == 'options') {
         // Das ist notwengig um die x-url-form-encoded-Bedingten
         // Formatierungen, wie \" statt " wegzukriegen
         $options = json_encode(json_decode($_POST['payload']));
-        $options = '{"options":'.$options.'}';
         $stmt->bindParam(':options',$options);
         $stmt->execute();
         $jsonData->setData("message", "success");
