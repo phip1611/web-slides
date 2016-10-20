@@ -86,7 +86,8 @@ function commandHandler(command) {
             showSlideById(command.split("slide:")[1]);
         }
         else if (command == "force-reload" || command == "force-refresh") {
-            location.reload(true);
+            //location.reload(true);
+            console.log("reload geforced, aber ABGEBROCHEN, da derzeit ja der Bug besteht..!");
         }
         // Fallback, da es das pause-Command mal gab
         else if (command == "pause" || command == "begin" || command == "start") {

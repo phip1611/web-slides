@@ -17,6 +17,7 @@ eigene XML/JSON/Whatever-Datei-Verwaltung schreiben und kann On-Update-Current-T
 #### GET:  REST-Schnittstelle
 - **/rest.php** liefert das komplette, für die Anwendung relevante JSON
 - **/rest.php?requestPolling=true** entsprechend mit HTTP-Polling
+- **/rest.php?presentations** zeigt auf dem Server vorhandene Präsentationen an
 
 #### POST: REST-Schnittstelle
 - **/rest.php** mit POST-Daten

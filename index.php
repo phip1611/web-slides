@@ -1,6 +1,6 @@
 <?php
-error_reporting(null);
-#error_reporting(E_ALL);
+#error_reporting(null);
+error_reporting(E_ALL);
 ?>
 <html>
 <head>
