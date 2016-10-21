@@ -1,15 +1,12 @@
 # Web-Slides
 
-## Über das Projekt
-Das ist ein einfaches Freizeit-Projekt aus Spaß um bisschen mit MySQL, JSON und REST zu spielen. Gedacht ist es, dass X Clients auf eine Präsentations-Webseite gehen und ich über eine weitere Steuerungsseite einstellen kann, was diese zu sehen bekommen.
-
-## TODO
-- admin.php mit Passwort schützen!
-- normales GET-Abfragen ohne Polling noch implementieren. Lohnt sich das überhaupt? Überdenken, vllt streichen...
-- das mit den Popups verbessern
+## About this project
+(ENG) This is a simple fun project to have something like Google Slides for my own as a web tool with a remote control.
+The idea behind it is that instead of a projector n person visit my website
+and I can remotely control what they will see.
 
 ## Entwicklerinformationen
-In Tabelle steht nur eine einzige Zeile, es ist nicht geplant mehrere zu haben.
+(DE) In Tabelle steht nur eine einzige Zeile, es ist nicht geplant mehrere zu haben.
 Dort steht die aktuelle Slide-ID, die über REST abgefragt wird. So muss ich keine 
 eigene XML/JSON/Whatever-Datei-Verwaltung schreiben und kann On-Update-Current-Timestamp nutzen.
 
@@ -17,7 +14,7 @@ eigene XML/JSON/Whatever-Datei-Verwaltung schreiben und kann On-Update-Current-T
 #### GET:  REST-Schnittstelle
 - **/rest.php** liefert das komplette, für die Anwendung relevante JSON
 - **/rest.php?requestPolling=true** entsprechend mit HTTP-Polling
-- **/rest.php?presentations** zeigt auf dem Server vorhandene Präsentationen an
+- **/rest.php?presentations=true** zeigt auf dem Server vorhandene Präsentationen an
 
 #### POST: REST-Schnittstelle
 - **/rest.php** mit POST-Daten
