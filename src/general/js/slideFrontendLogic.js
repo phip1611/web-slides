@@ -92,9 +92,15 @@ function commandHandler(command) {
         showPopup(command.split("popup:")[1]);
     }
     else if (command == "skip") {
+        if (activeSlideIdentifier == -1) {
+            showSlideById(1);
+        }
         console.log("skipped");
     }
     else {
+        if (activeSlideIdentifier == -1) {
+            showSlideById(1);
+        }
         console.error("Unbekanntes Server-Kommando: "+command);
     }
 };
