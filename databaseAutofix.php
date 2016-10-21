@@ -17,6 +17,19 @@ catch (PDOException $ex) {
     die($jsonData->getJsonAsString());
 }
 
+if (isset($_GET['recreate']) && $_GET['recreate'] == "true") {
+    $sql = file_get_contents(__DIR__.'/private/src/sql/dropDbTable.sql');
+    $sql = str_replace('%TABLE_PREFIX%', $mysqlCredentials->tablePrefix, $sql);
+    $sql = str_replace('%TABLE_NAME%', $mysqlCredentials->tableName, $sql);
+    try {
+        $stmt = $pdo->query($sql);
+    } catch (PDOException $ex) {
+        $jsonData->setData("message", "error");
+        $jsonData->setData("error_detail", "couldn't drop table from MySQL-Server");
+        die($jsonData->getJsonAsString());
+    }
+}
+
 # TESTEN OB TABELLE VORHANDEN IST
 try { #Tabelle vorhanden
     $sql = file_get_contents(__DIR__.'/private/src/sql/getData.sql');

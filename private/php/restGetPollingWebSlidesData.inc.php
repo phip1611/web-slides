@@ -6,8 +6,6 @@ $restReferenceDatetime = -1;
 $restCommand = '';
 $restOptions = '{}';
 
-$i = 0;
-
 $sql = file_get_contents(__DIR__.'/../src/sql/getData.sql');
 $sql = str_replace('%TABLE_PREFIX%', $mysqlCredentials->tablePrefix, $sql);
 $sql = str_replace('%TABLE_NAME%', $mysqlCredentials->tableName, $sql);
@@ -24,6 +22,7 @@ while (true) {
                 $jsonData->setData("referenceDatetime", $row[0]);
                 $jsonData->setData("command", $row[1]);
                 $jsonData->setData("options", json_decode($row[2]));
+                $jsonData->setData("presentation-identifier", $row[3]);
                 $jsonData->setData("message", "success");
                 die($jsonData->getJsonAsString());
             }

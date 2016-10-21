@@ -55,9 +55,8 @@ Hilfreich, wenn der Nutzer die Präsentation selbst erkunden darf und man ihn da
     "errorDetail": "",
     "lastCommandDatetime": "2016-10-23 20:56:13",
     "command": "slide:5",
+    "presentationIdentifier": "default",
     "options": {
-       "usePolling": true,
-       "useRegularGet": true,
        "refreshRate": 500,
        "allowUserNavigation": false,
        "followServerCommands": true 

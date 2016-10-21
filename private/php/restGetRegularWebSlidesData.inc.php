@@ -11,6 +11,7 @@ try {
         $jsonData->setData("referenceDatetime", $row[0]);
         $jsonData->setData("command", $row[1]);
         $jsonData->setData("options", json_decode($row[2]));
+        $jsonData->setData("presentation-identifier", $row[3]);
     }
     $jsonData->setData("message", "success");
     die($jsonData->getJsonAsString());

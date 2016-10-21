@@ -141,12 +141,10 @@ error_reporting(E_ALL);
             <!-- ACHTUNG DAS IS NOCH MEGA HÄSSLICH -->
             <!-- HIER WERDEN ALLE OPTIONS AUF DEFAULT GESTELLT -->
             document.querySelector("#disable-user-navigation-button").addEventListener('click', function() {
-                sendRestRequest('options', JSON.stringify({"usePolling":true,"useRegularGet":true,
-                "refreshRate":500,"allowUserNavigation":false,"followServerCommands":true}));
+                sendRestRequest('options', JSON.stringify({"allowUserNavigation":false}));
             });
             document.querySelector("#allow-user-navigation-button").addEventListener('click', function() {
-                sendRestRequest('options', JSON.stringify({"usePolling":true,"useRegularGet":true,
-                    "refreshRate":500,"allowUserNavigation":true,"followServerCommands":true}));
+                sendRestRequest('options', JSON.stringify({"allowUserNavigation":true}));
             });
             document.querySelector("#show-trollface-button").addEventListener('click', function() {
                 sendRestRequest('command', 'popup:trollface');
@@ -177,7 +175,8 @@ error_reporting(E_ALL);
                 options.forEach(function(option) {
                    if (option.selected) {
                        sendRestRequest("presentationIdentifier", option.value);
-                       sendRestRequest("command", "force-reload");
+                       //sendRestRequest("command", "force-reload");
+                       sendRestRequest("command", "slide:1");
                    }
                 });
             })

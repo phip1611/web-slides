@@ -7,10 +7,10 @@ error_reporting(E_ALL);
     <title>Web-Slides: Präsentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="src/css/reset.css">
-    <link rel="stylesheet" href="src/css/style.css">
-    <link rel="stylesheet" href="src/css/responsive.css">
-    <script src="src/js/logic.js"></script>
+    <link rel="stylesheet" href="src/general/css/reset.css">
+    <link rel="stylesheet" href="src/general/css/slideStyleGeneral.css">
+    <link rel="stylesheet" href="src/general/css/slideStyleGeneralResponsive.css">
+    <script src="src/general/js/slideFrontendLogic.js"></script>
 </head>
 
 <body>
