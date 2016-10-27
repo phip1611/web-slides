@@ -1,5 +1,5 @@
 var REST_URL = "rest.php";
-var REST_URL_POLLING = "rest.php?requestPolling=true";
+
 // wird benötigt, weil es sonst Probleme mit dem "force reload" leider gibt
 var defaultData = {
     "command": "slide:1",
@@ -9,7 +9,7 @@ var defaultData = {
         "allowUserNavigation": true
     }
 };
-var restData = defaultData;
+var restData = defaultData;/**/
 var activeSlideIdentifier = -1;
 
 function calcSlideCount() {
@@ -135,9 +135,6 @@ function restDataHandler(responseText) {
             console.log("REST-Daten empfangen, Veränderung!");
             console.log("Command: "+restData.command);
             commandHandler(responseJson.command);
-            // Beim Polling muss nach dem Ende einer Anfrage eine neue gestartet werden!
-            // falls eine andere Präsentation angefordert wird
-            getRestData(REST_URL_POLLING); // nächste Polling-Anfrage
             restData = responseJson;
         }
     }
@@ -149,6 +146,7 @@ function restDataHandler(responseText) {
     }
 }
 function getRestData(url) {
+    console.log("REST-Anfrage gestellt");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -158,9 +156,6 @@ function getRestData(url) {
     xhttp.open("GET", url, true);
     xhttp.send();
 };
-function setRestDataListener() {
-    getRestData(REST_URL_POLLING);
-}
 function registerWindowResizeListener() {
     window.onresize = function() {
         calc16to9SlideDimension();
@@ -192,12 +187,17 @@ function hideAllPopups() {
         }
     });
 }
+function registerGetDataInterval() {
+    window.setInterval(function() {
+        getRestData(REST_URL);
+    }, 777);
+}
 
 window.onload = function() {
     calcSlideCount();
     registerWindowResizeListener();
     calc16to9SlideDimension();
     getRestData(REST_URL); // aktuelle Kinfoguration abrufen + aktuelles Kommando
+    registerGetDataInterval();
     registerKeyListener();
-    //setRestDataListener();
 };

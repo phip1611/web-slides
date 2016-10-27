@@ -1,7 +1,8 @@
 <?php
-#error_reporting(null); #production
-error_reporting(E_ALL); #dev
+error_reporting(null); #production
+#error_reporting(E_ALL); #dev
 header('Content-Type: application/json');
+clearstatcache();
 
 include __DIR__.'/private/php/pdoConfig.inc.php';
 include __DIR__.'/private/php/Json.class.php';
@@ -19,12 +20,9 @@ catch (PDOException $ex) {
 if (isset($_POST['admin']) && $_POST['admin'] == "true") {
     require __DIR__ . '/private/php/restPostAdmin.inc.php';
 }
-else if (isset($_GET['requestPolling']) && $_GET['requestPolling'] == "true") {
-    require __DIR__ . '/private/php/restGetPollingWebSlidesData.inc.php';
-}
 else if (isset($_GET['presentations']) && $_GET['presentations'] == "true") {
     require __DIR__ . '/private/php/restGetAvailablePresentations.inc.php';
 }
 else {
-    require __DIR__ . '/private/php/restGetRegularWebSlidesData.inc.php';
+    require __DIR__ . '/private/php/restGetWebSlidesData.inc.php';
 }
