@@ -13,7 +13,7 @@ try { // Konnte Verbindung zu MySQL-Server herstellen
 } // MySQL-Server nicht erreichbar.
 catch (PDOException $ex) {
     $jsonData->setData("message", "error");
-    $jsonData->setData("error_detail", "couldn't connect to MySQL-Server");
+    $jsonData->setData("errorDetail", "couldn't connect to MySQL-Server");
     die($jsonData->getJsonAsString());
 }
 
@@ -25,7 +25,7 @@ if (isset($_GET['recreate']) && $_GET['recreate'] == "true") {
         $stmt = $pdo->query($sql);
     } catch (PDOException $ex) {
         $jsonData->setData("message", "error");
-        $jsonData->setData("error_detail", "couldn't drop table from MySQL-Server");
+        $jsonData->setData("errorDetail", "couldn't drop table from MySQL-Server");
         die($jsonData->getJsonAsString());
     }
 }
@@ -56,7 +56,7 @@ try { #Tabelle vorhanden
         $pdo->query($sql2);
     } catch (PDOException $ex) { #Tabelle konnte nicht erstellt werden
         $jsonData->setData("message", "error");
-        $jsonData->setData("error_detail", "couldn't create MySQL-table");
+        $jsonData->setData("errorDetail", "couldn't create MySQL-table");
         die($jsonData->getJsonAsString());
     }
 }

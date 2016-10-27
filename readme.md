@@ -53,9 +53,7 @@ Hilfreich, wenn der Nutzer die Präsentation selbst erkunden darf und man ihn da
     "command": "slide:5",
     "presentationIdentifier": "default",
     "options": {
-       "refreshRate": 500,
-       "allowUserNavigation": false,
-       "followServerCommands": true 
+       "allowUserNavigation": false
     }
 }
 ```

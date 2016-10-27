@@ -16,6 +16,6 @@ try {
     die($jsonData->getJsonAsString());
 } catch (PDOException $ex) {
     $jsonData->setData("message", "error");
-    $jsonData->setData("error_detail", "couldn't get data from table");
+    $jsonData->setData("errorDetail", "couldn't get data from table");
     die($jsonData->getJsonAsString());
 }

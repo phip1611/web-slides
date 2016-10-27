@@ -2,12 +2,12 @@
 # DATEN DER REST-ABFRAGE HOLEN
 if (!isset($_POST['payload']) || empty($_POST['payload'])) {
     $jsonData->setData("message", "error");
-    $jsonData->setData("error_detail", "no payload data attached to post request");
+    $jsonData->setData("errorDetail", "no payload data attached to post request");
     die($jsonData->getJsonAsString());
 }
 if (!isset($_POST['whatToUpdate'])) {
     $jsonData->setData("message", "error");
-    $jsonData->setData("error_detail", "not specified what to update");
+    $jsonData->setData("errorDetail", "not specified what to update");
     die($jsonData->getJsonAsString());
 }
 
@@ -22,13 +22,13 @@ if (!isset($_POST['whatToUpdate']) || $_POST['whatToUpdate'] == 'all') {
 
         if ($data == null) {
             $jsonData->setData("message", "error");
-            $jsonData->setData("error_detail", "payload is no valid json");
+            $jsonData->setData("errorDetail", "payload is no valid json");
             die($jsonData->getJsonAsString());
         }
 
         if (!isset($data['command']) || !isset($data['presentationIdentifier']) || !isset($data['options'])) {
             $jsonData->setData("message", "error");
-            $jsonData->setData("error_detail", "no valid post data: must be a json with the fields command, presentationIdentifier, options");
+            $jsonData->setData("errorDetail", "no valid post data: must be a json with the fields command, presentationIdentifier, options");
             die($jsonData->getJsonAsString());
         }
 
@@ -42,7 +42,7 @@ if (!isset($_POST['whatToUpdate']) || $_POST['whatToUpdate'] == 'all') {
         die($jsonData->getJsonAsString());
     } catch (PDOException $ex) {
         $jsonData->setData("message", "error");
-        $jsonData->setData("error_detail", "couldn't update data in table");
+        $jsonData->setData("errorDetail", "couldn't update data in table");
         die($jsonData->getJsonAsString());
     }
 }
@@ -59,7 +59,7 @@ else if (isset($_POST['whatToUpdate']) && $_POST['whatToUpdate'] == 'presentatio
         die($jsonData->getJsonAsString());
     } catch (PDOException $ex) {
         $jsonData->setData("message", "error");
-        $jsonData->setData("error_detail", "couldn't update data in table");
+        $jsonData->setData("errorDetail", "couldn't update data in table");
         die($jsonData->getJsonAsString());
     }
 }
@@ -76,7 +76,7 @@ else if (isset($_POST['whatToUpdate']) && $_POST['whatToUpdate'] == 'command') {
             die($jsonData->getJsonAsString());
         } catch (PDOException $ex) {
             $jsonData->setData("message", "error");
-            $jsonData->setData("error_detail", "couldn't update data in table");
+            $jsonData->setData("errorDetail", "couldn't update data in table");
             die($jsonData->getJsonAsString());
         }
 }
@@ -89,7 +89,7 @@ else if (isset($_POST['whatToUpdate']) && $_POST['whatToUpdate'] == 'options') {
         $data = json_decode($_POST['payload'], true);
         if ($data == null) {
             $jsonData->setData("message", "error");
-            $jsonData->setData("error_detail", "payload is no valid json");
+            $jsonData->setData("errorDetail", "payload is no valid json");
             die($jsonData->getJsonAsString());
         }
         unset($data); // nur überprüfen ob valides JSON
@@ -105,12 +105,12 @@ else if (isset($_POST['whatToUpdate']) && $_POST['whatToUpdate'] == 'options') {
         die($jsonData->getJsonAsString());
     } catch (PDOException $ex) {
         $jsonData->setData("message", "error");
-        $jsonData->setData("error_detail", "couldn't update data in table");
+        $jsonData->setData("errorDetail", "couldn't update data in table");
         die($jsonData->getJsonAsString());
     }
 }
 else {
     $jsonData->setData("message", "error");
-    $jsonData->setData("error_detail", "unknown whatToUpdate parameter");
+    $jsonData->setData("errorDetail", "unknown whatToUpdate parameter");
     die($jsonData->getJsonAsString());
 }

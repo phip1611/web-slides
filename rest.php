@@ -13,7 +13,7 @@ try { // Konnte Verbindung zu MySQL-Server herstellen
 } // MySQL-Server nicht erreichbar.
 catch (PDOException $ex) {
     $jsonData->setData("message", "error");
-    $jsonData->setData("error_detail", "couldn't connect to MySQL-Server");
+    $jsonData->setData("errorDetail", "couldn't connect to MySQL-Server");
     die($jsonData->getJsonAsString());
 }
 
